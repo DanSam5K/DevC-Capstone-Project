@@ -11,4 +11,5 @@ const userSchema = pool.Schema ({
     address​ : { type: String​, required: true },
 })
 
+
 model.exports = pool.models('Users', userSchema);

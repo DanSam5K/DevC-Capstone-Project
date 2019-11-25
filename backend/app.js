@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-Parser');
 const User = require('./models/user');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -33,38 +34,7 @@ app.post('/api/auth/signIn', (req, res, next) => {
   );
 });
 
-app.post('/api/auth/create-user', (req, res, next) => {
-  const user = new User({
-    firstName​ :req.body.firstName, ​ 
-    lastName​ : req.body.lastName,​ 
-    email​ :​ req.body.email,    
-    password :​req.body.password, 
-    gender​ :​req.body.gender,   ​ 
-    jobRole​ : ​req.body.jobRole,
-    department​ : req.body.department,   ​ 
-    address​ :req.body.address,
-  });
-  user.save().then(
-    () => {
-      res.status(201).json({
-        message: 'Post saved successfully!'
-      });
-    }
-  ).catch(
-    (error) => {
-      res.status(400).json({
-        error: error
-      });
-    }
-  );
-});
-
-
-
-
-
-
-
+app.use('api/auth', userRoutes);
 
 
 module.exports = app; 

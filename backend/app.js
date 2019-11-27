@@ -1,26 +1,41 @@
 const express = require('express');
+const bodyParser = require('body-Parser');
+const User = require('./models/user');
+const userRoutes = require('./routes/user');
+const gifRoutes = require('./routes/gif');
 
 const app = express();
 
-//testing and ensuring express work unit test for endpoints
-
 app.use((req, res, next) => {
-    console.log('Request received!');
-    next();
-  });
-  
-  app.use((req, res, next) => {
-    res.status(201);
-    next();
-  });
-  
-  app.use((req, res, next) => {
-    res.json({ message: 'Your request was successful!' });
-    next();
-  });
-  
-  app.use((req, res, next) => {
-    console.log('Response sent successfully!');
-  });
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
 
-module.exports = app;
+app.use(bodyParser.json());
+
+app.post('/api/auth/signIn', (req, res, next) => {
+  const user = new User({
+    email​ :​ req.body.email,    
+    password :​req.body.password, 
+  });
+  user.save().then(
+    () => {
+      res.status(201).json({
+        message: 'Post saved successfully!'
+      });
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+});
+
+app.use('api/auth', userRoutes);
+app.use('api/auth', gifRoutes);
+
+module.exports = app; 

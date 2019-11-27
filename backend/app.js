@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-Parser');
 const User = require('./models/user');
 const userRoutes = require('./routes/user');
+const gifRoutes = require('./routes/gif');
 
 const app = express();
 
@@ -35,6 +36,6 @@ app.post('/api/auth/signIn', (req, res, next) => {
 });
 
 app.use('api/auth', userRoutes);
-
+app.use('api/auth', gifRoutes);
 
 module.exports = app; 

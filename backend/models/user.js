@@ -12,4 +12,4 @@ const userSchema = pool.Schema ({
 })
 
 
-model.exports = pool.models('Users', userSchema);
+model.exports = Pool.models('Users', userSchema);
